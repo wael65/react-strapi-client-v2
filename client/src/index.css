@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&display=swap");
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+/* .flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+} */
+
+.border {
+  border-style: solid;
+  border-width: 2px;
+  border-color: red;
+}
+
+/* header 1*/
+.MuiContainer-root {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between;
+}
+
+/* header 1 - languge menu*/
+.langMenu p {
+  color: #fff !important;
+}
+
+/* return links to original style */
+.link {
+  text-decoration: none;
+  color: inherit;
+}
