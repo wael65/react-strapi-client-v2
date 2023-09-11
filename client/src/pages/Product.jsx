@@ -1,7 +1,7 @@
 import { Container, Box, CssBaseline, ThemeProvider } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, useMode } from "../theme";
-import Header from "../sections/header/Header";
+import MainHeader from "../sections/header/MainHeader";
 import ProductDetails from "./ProductDetails";
 
 const Product = () => {
@@ -17,7 +17,7 @@ const Product = () => {
         theme={theme}
       >
         <CssBaseline />
-        <Header />
+        <MainHeader />
         <Box
           sx={{
             backgroundColor:

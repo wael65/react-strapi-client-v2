@@ -15,6 +15,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../context/app-context";
+import { setUser } from "../context/session";
 
 const defaultTheme = createTheme();
 
@@ -38,6 +39,7 @@ const SignIn = () => {
       .then((response) => {
         // Handle success.
         addUser(response.data.user);
+        setUser(response.data);
         console.log("Well done!");
         console.log("User profile", response.data.user);
         console.log("User token", response.data.jwt);

@@ -14,7 +14,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { storeUser } from "../context/helper";
+// import { storeUser } from "../context/helper";
+import { setUser } from "../context/session";
 
 const defaultTheme = createTheme();
 
@@ -25,31 +26,31 @@ export default function SignUp() {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
 
-  const [user, setUser] = useState(initialUser);
+  const [newUser, setNewUser] = useState(initialUser);
 
   const navigate = useNavigate();
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
-    setUser((currentUser) => ({
+    setNewUser((currentUser) => ({
       ...currentUser,
       [name]: value,
     }));
   };
 
-  console.log({ user });
+  console.log({ newUser });
 
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
       .post("https://react-strapi-store.onrender.com/api/auth/local/register", {
-        username: user.identifier,
-        email: user.email,
-        password: user.password,
+        username: newUser.identifier,
+        email: newUser.email,
+        password: newUser.password,
       })
       .then((response) => {
         // Handle success.
-        storeUser(response.data);
+        setUser(response.data);
 
         console.log("Well done!");
         console.log("User profile", response.data.user);
@@ -58,7 +59,7 @@ export default function SignUp() {
       .then(() => {
         // setUser("");
         // setPassword("");
-        setUser(initialUser);
+        setNewUser(initialUser);
         navigate("/");
       })
 
@@ -105,7 +106,7 @@ export default function SignUp() {
               type="text"
               autoComplete="username"
               autoFocus
-              value={user.identifier}
+              value={newUser.identifier}
               onChange={handleChange}
             />
             <TextField
@@ -119,7 +120,7 @@ export default function SignUp() {
               type="email"
               autoComplete="email"
               autoFocus
-              value={user.email}
+              value={newUser.email}
               onChange={handleChange}
             />
             <TextField
@@ -132,7 +133,7 @@ export default function SignUp() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={user.password}
+              value={newUser.password}
               onChange={handleChange}
             />
             <FormControlLabel

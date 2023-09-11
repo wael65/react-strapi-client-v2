@@ -1,7 +1,5 @@
-import { DataUsageRounded } from "@mui/icons-material";
-
-export const storeUser = (data) => {
-  localStorage.setItem(
+export const setUser = (data) => {
+  sessionStorage.setItem(
     "user",
     JSON.stringify({
       username: data.user.username,
@@ -12,7 +10,7 @@ export const storeUser = (data) => {
   );
 };
 
-export const userData = () => {
-  const stringifiedUser = localStorage.getItem("user") || '""';
+export const getUser = () => {
+  const stringifiedUser = sessionStorage.getItem("user") || '""';
   return JSON.parse(stringifiedUser || null);
 };

@@ -15,14 +15,16 @@ import MainThemeMode from "./headerComp/MainThemeMode";
 import LngListMenu from "./headerComp/LngListMenu";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/app-context";
+import { getUser } from "../../context/session";
 import { useContext, useState, useEffect } from "react";
 
 const MainHeader = () => {
   const { users } = useContext(AppContext);
+  const { username, jwt } = getUser();
+  console.log(username);
 
   console.log(users);
 
-  // const { username, jwt } = userData();
   const theme = useTheme();
   return (
     <Container sx={{ my: "1.5em", width: "95%" }}>
@@ -54,7 +56,7 @@ const MainHeader = () => {
         <Box>
           <LngListMenu />
         </Box>
-        {users.username !== "" ? (
+        {username ? (
           <>
             <Box
               // className="border"
@@ -81,7 +83,7 @@ const MainHeader = () => {
                   bgcolor: theme.palette.badgeBg.main,
                 }}
               >
-                {users[0].username}
+                {username}
               </Avatar>
             </Box>
           </>
