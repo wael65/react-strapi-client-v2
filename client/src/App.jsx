@@ -7,7 +7,7 @@ import CheckOut from "./pages/CheckOut";
 import Register from "./pages/Register";
 import LogOut from "./pages/LogOut";
 
-import SignIn from "./pages/LogIn";
+import SignIn from "./pages/logIn";
 
 function App() {
   return (

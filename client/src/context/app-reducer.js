@@ -1,11 +1,17 @@
-import { ADD_USER } from "./app-action";
+import { ADD_USER, LOG_OUT } from "./app-action";
 
 const appReducer = (state, action) => {
   switch (action.type) {
     case ADD_USER:
       return {
         ...state,
-        users: [...state.users, action.payload],
+        // users: [...state.users, action.payload],
+        users: [action.payload],
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        users: [action.payload],
       };
     default:
       return state;

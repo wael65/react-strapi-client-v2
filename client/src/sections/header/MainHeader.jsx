@@ -14,11 +14,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MainThemeMode from "./headerComp/MainThemeMode";
 import LngListMenu from "./headerComp/LngListMenu";
 import { Link } from "react-router-dom";
-// import { userData } from "../../context/helper";
-import AppContext from "../content";
+import AppContext from "../../context/app-context";
+import { useContext, useState, useEffect } from "react";
 
 const MainHeader = () => {
   const { users } = useContext(AppContext);
+
+  console.log(users);
+
   // const { username, jwt } = userData();
   const theme = useTheme();
   return (
@@ -51,7 +54,7 @@ const MainHeader = () => {
         <Box>
           <LngListMenu />
         </Box>
-        {username ? (
+        {users.username !== "" ? (
           <>
             <Box
               // className="border"
@@ -78,7 +81,7 @@ const MainHeader = () => {
                   bgcolor: theme.palette.badgeBg.main,
                 }}
               >
-                {username}
+                {users[0].username}
               </Avatar>
             </Box>
           </>
@@ -98,6 +101,7 @@ const MainHeader = () => {
             </Box>
           </Link>
         )}
+
         <Link to="/cart" className="link">
           <Box
             // className="border"

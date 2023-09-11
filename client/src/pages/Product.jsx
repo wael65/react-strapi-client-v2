@@ -1,5 +1,5 @@
 import { Container, Box, CssBaseline, ThemeProvider } from "@mui/material";
-
+import { useContext } from "react";
 import { ColorModeContext, useMode } from "../theme";
 import Header from "../sections/header/Header";
 import ProductDetails from "./ProductDetails";
