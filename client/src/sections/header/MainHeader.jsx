@@ -14,10 +14,12 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MainThemeMode from "./headerComp/MainThemeMode";
 import LngListMenu from "./headerComp/LngListMenu";
 import { Link } from "react-router-dom";
-import { userData } from "../../context/helper";
+// import { userData } from "../../context/helper";
+import AppContext from "../content";
 
 const MainHeader = () => {
-  const { username, jwt } = userData();
+  const { users } = useContext(AppContext);
+  // const { username, jwt } = userData();
   const theme = useTheme();
   return (
     <Container sx={{ my: "1.5em", width: "95%" }}>

@@ -11,49 +11,40 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useRef, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const initialUser = { identifier: "", password: "" };
+import AppContext from "../context/app-context";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  //   const [user, setUser] = useState("");
-  //   const [password, setPassword] = useState("");
+const SignIn = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [user, setUser] = useState(initialUser);
+  const { addUser } = useContext(AppContext);
 
   const navigate = useNavigate();
 
   //   console.log({ user });
 
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setUser((currentUser) => ({
-      ...currentUser,
-      [name]: value,
-    }));
-  };
-  console.log(user);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
       .post("https://react-strapi-store.onrender.com/api/auth/local", {
-        identifier: user.identifier,
-        password: user.password,
+        identifier: username,
+        password: password,
       })
       .then((response) => {
         // Handle success.
-
+        addUser(response.data.user);
         console.log("Well done!");
         console.log("User profile", response.data.user);
         console.log("User token", response.data.jwt);
       })
       .then(() => {
-        setUser(initialUser);
+        setUsername("");
+        setPassword("");
         navigate("/");
       })
 
@@ -100,8 +91,8 @@ export default function SignIn() {
               type="text"
               autoComplete="username"
               autoFocus
-              value={user.identifier}
-              onChange={handleChange}
+              value={username}
+              onChange={(e) => setUsername(() => e.target.value)}
             />
             <TextField
               size="small"
@@ -113,8 +104,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={user.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(() => e.target.value)}
             />
             <FormControlLabel
               sx={{
@@ -150,4 +141,6 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default SignIn;
