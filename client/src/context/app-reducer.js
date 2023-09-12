@@ -5,13 +5,12 @@ const appReducer = (state, action) => {
     case ADD_USER:
       return {
         ...state,
-        // users: [...state.users, action.payload],
-        users: [action.payload],
+        users: action.payload,
       };
     case LOG_OUT:
       return {
         ...state,
-        users: [action.payload],
+        users: action.payload,
       };
     default:
       return state;

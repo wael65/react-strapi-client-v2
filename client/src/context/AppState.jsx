@@ -5,7 +5,7 @@ import appReducer from "./app-reducer";
 import { ADD_USER, LOG_OUT } from "./app-action";
 
 const initialState = {
-  users: {},
+  users: null,
 };
 
 const AppState = ({ children }) => {
@@ -25,7 +25,7 @@ const AppState = ({ children }) => {
     // @ts-ignore
     dispatch({
       type: LOG_OUT,
-      payload: {},
+      payload: null,
     });
   };
   return (

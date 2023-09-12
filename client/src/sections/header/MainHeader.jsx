@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   Container,
   Stack,
   Typography,
@@ -14,6 +15,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MainThemeMode from "./headerComp/MainThemeMode";
 import LngListMenu from "./headerComp/LngListMenu";
 import { Link } from "react-router-dom";
+
 import AppContext from "../../context/app-context";
 import { getUser } from "../../context/session";
 import { useContext, useState, useEffect } from "react";
@@ -26,6 +28,7 @@ const MainHeader = () => {
   console.log(users);
 
   const theme = useTheme();
+
   return (
     <Container sx={{ my: "1.5em", width: "95%" }}>
       <Stack flexGrow={0.2} sx={{ alignContent: "center" }}>
@@ -70,7 +73,6 @@ const MainHeader = () => {
               <Link to="/logout" className="link">
                 {/* <Typography>{`Welcome ${username}`}</Typography> */}
                 <Typography>Logout</Typography>
-                {/* </Box> */}
               </Link>
 
               {/* <Box> */}
