@@ -21,7 +21,7 @@ import { getUser } from "../../context/session";
 import { useContext, useState, useEffect } from "react";
 
 const MainHeader = () => {
-  const { users } = useContext(AppContext);
+  const { users, quantity } = useContext(AppContext);
   const { username, jwt } = getUser();
   console.log(username);
 
@@ -117,7 +117,7 @@ const MainHeader = () => {
           >
             <Typography>Cart</Typography>
             <ShoppingCartIcon />
-            <Badge badgeContent={4} color="primary"></Badge>
+            <Badge badgeContent={quantity} color="primary"></Badge>
           </Box>
         </Link>
       </Stack>

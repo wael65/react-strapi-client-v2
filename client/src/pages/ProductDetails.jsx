@@ -3,19 +3,26 @@ import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Unstable_Grid2";
-import { Typography, Container, Box, Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import {
+  Typography,
+  Container,
+  Box,
+  Button,
+  NativeSelect,
+} from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 import Rating from "@mui/material/Rating";
 import { Stack } from "@mui/system";
 import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
 import AssignmentReturnIcon from "@mui/icons-material/AssignmentReturn";
+import { useNavigate } from "react-router-dom";
 
 import AppContext from "../context/app-context";
 import { addProduct } from "../context/session";
-
-const options = ["1", "2", "3", "4", "5"];
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -27,10 +34,13 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const ProductDetails = () => {
-  const [value, setValue] = useState(options[0]);
-  const [inputValue, setInputValue] = useState("");
+  const { addToCart, addAmountToCart } = useContext(AppContext);
 
-  const { addToCart } = useContext(AppContext);
+  // add quantity of product
+  const [quantity, setQuantity] = useState(1);
+  const handleChange = (event) => {
+    setQuantity(event.target.value);
+  };
 
   // get productId from current url page
   let { id } = useParams();
@@ -39,15 +49,30 @@ const ProductDetails = () => {
   const url = "/products/" + id + "?populate=*";
   const { data, loading, error } = useFetch(url);
 
+  // add product data  and quentity of product to AppState
+  const addProduct = () => {
+    addToCart(data);
+    addAmountToCart(quantity);
+    console.log(data);
+    console.log(quantity);
+    navigate("/cart");
+  };
+
+  // get the count wich input for product
+  const optionsCount = [];
+  {
+    for (let i = 1; i < 6; i++) {
+      optionsCount.push(i);
+    }
+  }
+
+  // to extend (parent) Box background to 0.6 of current screen
   let height = screen.height;
   console.log(height);
 
   console.log(data);
 
-  // addToCart(data);
-  {
-    data && addProduct(data);
-  }
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -134,7 +159,7 @@ const ProductDetails = () => {
               px: "2em",
               py: "2em",
               display: "flex",
-              alignItems: "center",
+              alignItems: "start",
               width: "20%",
             }}
           >
@@ -175,32 +200,53 @@ const ProductDetails = () => {
             </Box>
 
             <Box
+            // sx={{
+            //   width: "100%",
+            //   display: "flex",
+            //   flexDirection: "row",
+            //   justifyContent: "start",
+            //   alignContent: "center",
+            // }}
+            // className="border"
+            >
+              <FormControl sx={{ mt: 2, mb: 0.25, minWidth: 80 }} size="small">
+                <Typography sx={{ fontSize: "0.75em" }}>Quantity</Typography>
+                <Select
+                  labelId="simple-select-label"
+                  id="demo-simple-select"
+                  value={quantity}
+                  // label="Quantity"
+                  // displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  onChange={handleChange}
+                >
+                  {optionsCount.map((count) => (
+                    <MenuItem value={count}>{count}</MenuItem>
+                  ))}
+
+                  {/* <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem> */}
+                </Select>
+              </FormControl>
+              {/* <Typography sx={{ ml: "0.5em" }}>Quantity</Typography> */}
+            </Box>
+
+            <Box
               // className="border"
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 width: "100%",
-                my: "2em",
+                mb: "2em",
+                mt: "0.5em",
               }}
             >
-              <Autocomplete
-                id="size-small-outlined"
-                size="small"
-                sx={{ width: 100, height: 30, mb: "1em" }}
-                options={options}
-                value={value}
-                onChange={(e, newValue) => {
-                  setValue(newValue);
-                }}
-                inputValue={inputValue}
-                onInputChange={(e, newInputValue) => {
-                  setInputValue(newInputValue);
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Quantity" />
-                )}
-              />
-              <Button variant="contained" sx={{ mb: "2em" }}>
+              <Button
+                variant="contained"
+                sx={{ mb: "2em" }}
+                onClick={addProduct}
+              >
                 add to cart
               </Button>{" "}
               {/* <div>{value !== null ? value : "null"}</div> */}
