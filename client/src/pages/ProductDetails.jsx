@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { styled } from "@mui/material/styles";
@@ -12,7 +12,10 @@ import { Stack } from "@mui/system";
 import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
 import AssignmentReturnIcon from "@mui/icons-material/AssignmentReturn";
 
-const options = [1, 2, 3, 4, 5];
+import AppContext from "../context/app-context";
+import { addProduct } from "../context/session";
+
+const options = ["1", "2", "3", "4", "5"];
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,6 +28,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const ProductDetails = () => {
   const [value, setValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState("");
+
+  const { addToCart } = useContext(AppContext);
 
   // get productId from current url page
   let { id } = useParams();
@@ -32,8 +38,16 @@ const ProductDetails = () => {
   // Fetch data from Api
   const url = "/products/" + id + "?populate=*";
   const { data, loading, error } = useFetch(url);
+
   let height = screen.height;
   console.log(height);
+
+  console.log(data);
+
+  // addToCart(data);
+  {
+    data && addProduct(data);
+  }
 
   return (
     <Box
@@ -175,8 +189,12 @@ const ProductDetails = () => {
                 sx={{ width: 100, height: 30, mb: "1em" }}
                 options={options}
                 value={value}
-                onChange={(event, newValue) => {
+                onChange={(e, newValue) => {
                   setValue(newValue);
+                }}
+                inputValue={inputValue}
+                onInputChange={(e, newInputValue) => {
+                  setInputValue(newInputValue);
                 }}
                 renderInput={(params) => (
                   <TextField {...params} label="Quantity" />

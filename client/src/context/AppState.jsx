@@ -2,10 +2,11 @@ import { useReducer } from "react";
 import AppContext from "./app-context";
 import appReducer from "./app-reducer";
 
-import { ADD_USER, LOG_OUT } from "./app-action";
+import { ADD_USER, LOG_OUT, ADD_TO_CART } from "./app-action";
 
 const initialState = {
   users: null,
+  cart: [],
 };
 
 const AppState = ({ children }) => {
@@ -28,8 +29,19 @@ const AppState = ({ children }) => {
       payload: null,
     });
   };
+
+  // Log Out
+  const addToCart = () => {
+    // @ts-ignore
+    dispatch({
+      type: ADD_TO_CART,
+      payload: null,
+    });
+  };
   return (
-    <AppContext.Provider value={{ users: state.users, addUser, logout }}>
+    <AppContext.Provider
+      value={{ users: state.users, addUser, logout, addToCart }}
+    >
       {children}
     </AppContext.Provider>
   );

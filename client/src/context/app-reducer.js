@@ -1,4 +1,4 @@
-import { ADD_USER, LOG_OUT } from "./app-action";
+import { ADD_USER, LOG_OUT, ADD_TO_CART } from "./app-action";
 
 const appReducer = (state, action) => {
   switch (action.type) {
@@ -11,6 +11,11 @@ const appReducer = (state, action) => {
       return {
         ...state,
         users: action.payload,
+      };
+    case ADD_TO_CART:
+      return {
+        ...state,
+        cart: [...state.cart, action.payload],
       };
     default:
       return state;
