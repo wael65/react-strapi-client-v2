@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Select, FormControl, MenuItem, Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -12,7 +12,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import AppContext from "../context/app-context";
 
 const CheckOut = () => {
-  const { cart, quantity } = useContext(AppContext);
+  const { cart, quantity, addAmountToCart } = useContext(AppContext);
   console.log(cart);
   console.log(quantity);
 
@@ -26,6 +26,11 @@ const CheckOut = () => {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
   const handleChange = (event) => {
     setCurrentQuantity(event.target.value);
+    addAmountToCart(currentQuantity);
+  };
+
+  const handleBlur = () => {
+    addAmountToCart(currentQuantity);
   };
 
   return (
@@ -82,6 +87,7 @@ const CheckOut = () => {
                     value={currentQuantity}
                     inputProps={{ "aria-label": "Without label" }}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                   >
                     {editCount.map((count) => (
                       <MenuItem value={count}>{count}</MenuItem>

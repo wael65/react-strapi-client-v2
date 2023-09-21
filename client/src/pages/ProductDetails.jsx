@@ -199,16 +199,7 @@ const ProductDetails = () => {
               </Button>
             </Box>
 
-            <Box
-            // sx={{
-            //   width: "100%",
-            //   display: "flex",
-            //   flexDirection: "row",
-            //   justifyContent: "start",
-            //   alignContent: "center",
-            // }}
-            // className="border"
-            >
+            <Box>
               <FormControl sx={{ mt: 2, mb: 0.25, minWidth: 80 }} size="small">
                 <Typography sx={{ fontSize: "0.75em" }}>Quantity</Typography>
                 <Select
