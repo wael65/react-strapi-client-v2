@@ -1,11 +1,29 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import {
+  Box,
+  Accordion,
+  AccordionSummary,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Popper,
+} from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-// import { AppBar, Toolbar } from "@mui/material";
-// import { grey } from "@mui/material/colors";
+
 import SimpleSerchMenu from "./simpleSearchMenu";
+import useFetch from "../../../hooks/useFetch";
+
+import { useNavigate } from "react-router-dom";
+
+import { dataa } from "./data.js";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -54,6 +72,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 // export default function SearchAppBar({ options }) {
 export default function SearchAppBar() {
+  // main search
+  const [search, setSearch] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleClick = (e) => {
+    setAnchorEl(anchorEl ? null : e.currentTarget);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popper" : undefined;
+
+  const { data, loading, error } = useFetch("/products?populate=*");
+
+  console.log(data);
+
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Search
@@ -71,7 +109,32 @@ export default function SearchAppBar() {
           sx={{ flexGrow: 1 }}
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          onChange={handleChange}
+          onClick={handleClick}
         />
+        <Popper id={id} open={open} anchorEl={anchorEl}>
+          <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+            {!search
+              ? null
+              : data.data
+                  .filter((product) => {
+                    return search.toLowerCase() === ""
+                      ? product
+                      : product.attributes.title.toLowerCase().includes(search);
+                  })
+                  .map((product, idx) => (
+                    <List
+                      key={idx}
+                      onClick={() => {
+                        navigate(`/product/${product.id}`);
+                      }}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <ListItem>{product.attributes.title}</ListItem>
+                    </List>
+                  ))}
+          </Box>
+        </Popper>
         <SimpleSerchMenu />
       </Search>
     </Box>
